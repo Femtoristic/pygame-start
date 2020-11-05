@@ -1,0 +1,67 @@
+import pygame
+
+#initialize the pygame
+pygame.init()
+
+#create the screen
+screen = pygame.display.set_mode((1920, 1080))
+
+#Title and Icon
+pygame.display.set_caption("Burg Spiel")
+icon = pygame.image.load('Burg.png')
+pygame.display.set_icon(icon)
+
+#playerImage
+playerImage = pygame.image.load('Kreis.png')
+PlayerX = 370
+PlayerY = 480
+PlayerX_change = 0
+PlayerY_change = 0
+
+def player(x,y):
+    screen.blit(playerImage, (x, y))
+
+#game loop
+running = True
+while running:
+
+    # rgb
+    screen.fill((225, 225, 225))
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # if a keystroke is presed check whether its right or left or up and down
+    if event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_LEFT:
+            PlayerX_change = -0.8
+        if event.key == pygame.K_RIGHT:
+            PlayerX_change = 0.8
+        if event.key == pygame.K_DOWN:
+            PlayerY_change = 0.8
+        if event.key == pygame.K_UP:
+            PlayerY_change = -0.8
+    if event.type == pygame.KEYUP:
+        if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+            PlayerX_change = 0
+        if event.key == pygame.K_DOWN or event.key == pygame.K_UP:
+            PlayerY_change = 0
+
+
+    PlayerX += PlayerX_change
+    PlayerY += PlayerY_change
+
+    if PlayerX <= 0:
+        PlayerX = 0
+    elif PlayerX >= 1856:
+        PlayerX = 1856
+
+
+    if PlayerY <= 0:
+        PlayerY = 0
+    elif PlayerY >= 1016:
+        PlayerY = 1016
+
+    player(PlayerX, PlayerY)
+    pygame.display.update()
